@@ -12,6 +12,19 @@
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
             $user_id = $get_user_token->fetch()['id'];
+            function makeLinks($text) {
+                $pattern = '~((https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/\S*)?)~i';
+                
+                $replacedText = preg_replace_callback($pattern, function($matches) {
+                    $url = $matches[0];
+                    if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+                        $url = 'http://' . $url;
+                    }
+                    return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $matches[0] . '</a>';
+                }, $text);
+                
+                return $replacedText;
+            }
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -34,7 +47,7 @@
                             'id_from' => (int)$list['id_user'],
                             'user_id' => (int)$list['id_who'],
                             'text' => htmlspecialchars($list['post']),
-                            'text_html' => nl2br(htmlspecialchars($list['post'])),
+                            'text_html' => makeLinks(nl2br(htmlspecialchars($list['post']))),
                             'date' => (int)$list['date'],
                             'likes' => (int)$likes_count,
                             'liked' => boolval($youtlike->rowCount()),
@@ -63,6 +76,19 @@
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
             $user_id = $get_user_token->fetch()['id'];
+            function makeLinks($text) {
+                $pattern = '~((https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/\S*)?)~i';
+                
+                $replacedText = preg_replace_callback($pattern, function($matches) {
+                    $url = $matches[0];
+                    if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+                        $url = 'http://' . $url;
+                    }
+                    return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $matches[0] . '</a>';
+                }, $text);
+                
+                return $replacedText;
+            }
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -85,7 +111,7 @@
                             'id_from' => (int)$list['id_user'],
                             'user_id' => (int)$list['id_who'],
                             'text' => htmlspecialchars($list['post']),
-                            'text_html' => nl2br(htmlspecialchars($list['post'])),
+                            'text_html' => makeLinks(nl2br(htmlspecialchars($list['post']))),
                             'date' => (int)$list['date'],
                             'is_pin' => boolval($list['pin']),
                             'likes' => (int)$likes_count,
