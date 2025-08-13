@@ -8,6 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'chillerlan\\Traits\\' => array($vendorDir . '/chillerlan/php-traits/src'),
     'chillerlan\\QRCode\\' => array($vendorDir . '/chillerlan/php-qrcode/src'),
+    'Symfony\\Polyfill\\Mbstring\\' => array($vendorDir . '/symfony/polyfill-mbstring'),
+    'Smarty\\' => array($vendorDir . '/smarty/smarty/src'),
     'ParagonIE\\ConstantTime\\' => array($vendorDir . '/paragonie/constant_time_encoding/src'),
     'PHPMailer\\PHPMailer\\' => array($vendorDir . '/phpmailer/phpmailer/src'),
     'Otp\\' => array($vendorDir . '/christian-riesen/otp/src'),

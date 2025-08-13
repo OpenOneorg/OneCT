@@ -1,20 +1,37 @@
 <?php
     require_once '../include/config.php';
     include '../include/web/user.php';
+    require '../vendor/autoload.php';
 
     include "../api/user.php";
     include "../api/wall.php";
+
+    ini_set("display_errors", "false");
 
     $text = '';
     $user = new user();
     $wall = new wall();
 
+    $data_group = array(
+        'owner_id' => 0,
+        'admin' => [0]
+    );
+
     switch($_GET['page']){
         case NULL:
+            if((int)$_GET['id'] < 0){
+                header("Location: group.php?id=" .((int)$_GET['id'] * -1));
+                exit();
+            }
+
+            $_GET['p'] = (int)$_GET['p'];
+
+            
+
             // Выкладывание поста
 
             if(isset($_POST['do_post'])){
-                $result = $wall->add($_SESSION['user']['token'], $_POST['text'], $_GET['id']);
+                $result = $wall->add($_SESSION['user']['token'], $_POST['text'], $_GET['id'], 0);
                 if(isset($result['error'])){
                     $text = $result['error'];
                 }
@@ -56,7 +73,7 @@
             // А твой ли профиль?
 
             if($_GET['id'] == $_SESSION['user']['user_id']){
-                $data_user[0] = $user->profile($_SESSION['user']['token'], $_GET['id']);
+                $data_user[0] = $user->profile($_SESSION['user']['token']);
                 $_SESSION['user']['priv'] = $data_user[0]['privilege'];
             } else{
                 $data_user = $user->getuser($_GET['id']);
@@ -64,7 +81,7 @@
 
             // Проверка на существование профиля
 
-            if($data_user[0]['username'] == 'Not found' or isset($data_user['error'])){
+            if($data_user[0]['username'] == $lang['api']['not_found'] or isset($data_user['error'])){
                 header("Location: user.php?id=" .$_SESSION['user']['user_id']);
             } else {
                 // Узнавание о пользователях со стены
@@ -85,6 +102,30 @@
                 $from_ids = $user->getuser($from_ids);
             }
 
+            class Post {
+                public function isbuttons($i) {
+                    global $from_ids, $user_ids;
+
+                    if($_GET['id'] == $_SESSION['user']['user_id'] or $user_ids[$i]['id'] == $_SESSION['user']['user_id'] or $from_ids[$i]['id'] == $_SESSION['user']['user_id'] or $_SESSION['user']['priv'] >= 2){
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+
+                public function openwall() {
+                    global $data_user;
+
+                    if($_GET['id'] == $_SESSION['user']['user_id'] or $data_user[0]['openwall'] == true) {
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            }
+
+            $post = new Post();
+
             break;
         case 'avatar':
             if(isset($_POST['do_change'])){
@@ -94,19 +135,34 @@
 
             break;
     }
-?>
 
-<?php 
     $site_header = array(
-        lang_change_avatar => '?page=avatar'
+        $lang['change_avatar'] => '?page=avatar'
     );
+
+    use Smarty\Smarty;
+    $smarty = new Smarty();
+
+    if($_SESSION['theme_type'] == 1){
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$_SESSION['theme']. '/users');
+    } elseif($_SESSION['theme_type'] == 2) {
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$style. '/users');
+    }
+    
+    $smarty->assign('data_user', $data_user);
+    $smarty->assign('post', $post);
+    $smarty->assign('text', $text);
+    $smarty->assign('data_wall', $data_wall);
+    $smarty->assign('from_ids', $from_ids);
+    $smarty->assign('user_ids', $user_ids);
+    include '../include/web/template.php';
 
     switch($_GET['page']){
         case NULL:
-            require "../themes/{$_SESSION['theme']}/users/user.php"; 
+            $smarty->display('user.tpl');
             break;
         case 'avatar':
-            require "../themes/{$_SESSION['theme']}/users/avatar.php"; 
+            $smarty->display('avatar.tpl');
             break;
     }
 ?>

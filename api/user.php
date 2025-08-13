@@ -7,7 +7,7 @@
         // Это же твой профиль
 
         function profile($token){
-            global $db, $url;
+            global $db, $url, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -17,7 +17,7 @@
                     // Ты не фигел?
                     http_response_code(403);
                     $response = array(
-                        'error' => 'Bad token'
+                        'error' => $lang['api']['bad_token']
                     );
                 } else {
                     // Узнаём про тебя
@@ -27,8 +27,8 @@
                     $response = array(
                         'id' => (int)$user_data['id'],
                         'email' => $user_data['email'],
-                        'username' => $user_data['name'],
-                        'description' => $user_data['descr'],
+                        'username' => htmlspecialchars($user_data['name']),
+                        'description' => htmlspecialchars($user_data['descr']),
                         'ban' => boolval($user_data['ban']),
                         'openwall' => boolval($user_data['yespost']),
                         'privilege' => (int)$user_data['priv']
@@ -39,12 +39,17 @@
                         $response['img50'] = $url . substr($user_data['img50'], 2);
                         $response['img100'] = $url . substr($user_data['img100'], 2);
                         $response['img200'] = $url . substr($user_data['img200'], 2);
+                    } else {
+                        $response['img'] = $url . '/themes/std/imgs/blankimg.jpg';
+                        $response['img50'] = $url . '/themes/std/imgs/blankimg.jpg';
+                        $response['img100'] = $url . '/themes/std/imgs/blankimg.jpg';
+                        $response['img200'] = $url . '/themes/std/imgs/blankimg.jpg';
                     }
                 }
             } else{
                 http_response_code(403);
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -54,14 +59,14 @@
         // Узнаём другим
 
         function getuser($id){
-            global $db, $url;
+            global $db, $url, $lang;
             $response = array();
 
             if(empty($id)){
                 // Где ИДшнки?
                 http_response_code(403);
                 $response = array(
-                    'error' => 'No user IDs'
+                    'error' => $lang['api']['no_user_id']
                 );
             } else {
                 // Бабах
@@ -77,8 +82,8 @@
                     if(!empty($user_data)){
                         $response[$i] = [
                             'id' => (int)$ids,
-                            'username' => $user_data['name'],
-                            'description' => $user_data['descr'],
+                            'username' => htmlspecialchars($user_data['name']),
+                            'description' => htmlspecialchars($user_data['descr']),
                             'ban' => boolval($user_data['ban']),
                             'openwall' => boolval($user_data['yespost']),
                             'privilege' => (int)$user_data['priv']
@@ -89,12 +94,40 @@
                             $response[$i]['img50'] = $url . substr($user_data['img50'], 2);
                             $response[$i]['img100'] = $url . substr($user_data['img100'], 2);
                             $response[$i]['img200'] = $url . substr($user_data['img200'], 2);
+                        } else {
+                            $response[$i]['img'] = $url . '/themes/std/imgs/blankimg.jpg';
+                            $response[$i]['img50'] = $url . '/themes/std/imgs/blankimg.jpg';
+                            $response[$i]['img100'] = $url . '/themes/std/imgs/blankimg.jpg';
+                            $response[$i]['img200'] = $url . '/themes/std/imgs/blankimg.jpg';
                         }
                     }else{
-                        $response[$i] = [
-                            'id' => (int)$ids,
-                            'username' => "Not found"
-                        ];
+                        $group_data = $db->query("SELECT * FROM groups WHERE id = '" .((int)$ids * -1). "'")->fetch(PDO::FETCH_ASSOC);
+
+                        if(!empty($group_data)){
+                            $response[$i] = array(
+                                'id' => (int)$group_data['id'] * -1,
+                                'username' => $group_data['name'],
+                                'ban' => false,
+                                'privilege' => (int)$group_data['verify']
+                            );
+
+                            if(!empty($group_data['img'])){
+                                $response[$i]['img'] = $url . substr($group_data['img'], 2);
+                                $response[$i]['img50'] = $url . substr($group_data['img50'], 2);
+                                $response[$i]['img100'] = $url . substr($group_data['img100'], 2);
+                                $response[$i]['img200'] = $url . substr($group_data['img200'], 2);
+                            } else {
+                                $response[$i]['img'] = $url . '/themes/std/imgs/blankimg.jpg';
+                                $response[$i]['img50'] = $url . '/themes/std/imgs/blankimg.jpg';
+                                $response[$i]['img100'] = $url . '/themes/std/imgs/blankimg.jpg';
+                                $response[$i]['img200'] = $url . '/themes/std/imgs/blankimg.jpg';
+                            }
+                        } else {
+                            $response[$i] = [
+                                'id' => (int)$ids,
+                                'username' => $lang['api']['not_found']
+                            ];
+                        }
                     }
 
                     $i++;
@@ -108,7 +141,7 @@
         // Изменяем твой профиль
 
         function change($token, $name, $desc, $wall){
-            global $db;
+            global $db, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -125,9 +158,14 @@
 
                     http_response_code(403);
                     $response = array(
-                        'error' => 'Bad token'
+                        'error' => $lang['api']['bad_token']
                     );
                 } else {
+                    if($user_data['ban'] == 1){
+                        $db->query("UPDATE users SET token='' WHERE token=" .$db->quote($token));
+                        header("Refresh: 0");
+                    }
+
                     $username = "";
                     $open_wall = "";
 
@@ -153,13 +191,11 @@
                         yespost = '" .(int)$open_wall. "' WHERE id = '" .$user_data['id']. "'";
 
                     if($db->query($query)){
-                        $response = array(
-                            'ok'
-                        );
+                        $response = array(1);
                     } else{
                         http_response_code(500);
                         $response = array(
-                            'error' => 'Server error'
+                            'error' => $lang['api']['server_error']
                         );
                     }
 
@@ -168,7 +204,7 @@
                 http_response_code(403);
 
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -176,7 +212,7 @@
         }
 
         function avatar($token){
-            global $db;
+            global $db, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -188,7 +224,7 @@
 
                     http_response_code(403);
                     $response = array(
-                        'error' => 'Bad token'
+                        'error' => $lang['api']['bad_token']
                     );
                 } else{
                     if($img['ban'] == 1){
@@ -200,7 +236,7 @@
 
                     if(empty($_FILES['file']['tmp_name'])){
                         $error = 1;
-                        $response = array('error' => 'Image not found');
+                        $response = array('error' => $lang['api']['image_not_found']);
                     }
 
                     // Загрузка
@@ -221,39 +257,51 @@
                         } else {
                             http_response_code(400);
                             $error = 1; 
-                        }
+                        }    
+
+                        $imgwidth = imagesx($file);
+                        $imgheight = imagesy($file);
                         
+                        $squareSize = min($imgwidth, $imgheight);
+                        $srcX = ($imgwidth - $squareSize) / 2;
+                        $srcY = ($imgheight - $squareSize) / 2;
+
+                        $squareImage = imagecreatetruecolor($squareSize, $squareSize);
+                        imagecopyresampled(
+                            $squareImage, $file,
+                            0, 0,
+                            $srcX, $srcY,
+                            $squareSize, $squareSize,
+                            $squareSize, $squareSize
+                        );
+                        
+                        imagedestroy($file);
+                        $file = $squareImage;
+                        
+                        $imgwidth = $squareSize;
+                        $imgheight = $squareSize;
+
                         $imgwidth= imagesx($file);
                         $imgheight= imagesy($file);
-                        
-                        if(($imgheight / $imgwidth) >= 1.1){
-                            http_response_code(400);
-                            $error = 1; 
-                        } elseif(($imgheight / $imgwidth) <= 0.9){
-                            http_response_code(400);
-                            $error = 1;
-                        }                          
-                        
-                        if($error == 0){
-                            $imgwidth= imagesx($file);
-                            $imgheight= imagesy($file);
                 
-                            if($width == 0){
-                                $width = ($height / $imgwidth) * $imgheight;
-                            } elseif($height == 0){
-                                $height = ($width / $imgheight) * $imgwidth;
-                            }
-                
-                            $size = imagecreatetruecolor((int)$height, (int)$width);
-                
-                            imagecopyresampled($size, $file, 0, 0, 0, 0, (int)$height, (int)$width,  imagesx($file), imagesy($file));
-                
-                            $filesrc = '../cdn/' .uniqid(). '.jpg';
-                
-                            imagejpeg($size, $filesrc, 80);
-
-                            return $filesrc;
+                        if($width == 0){
+                            $width = ($height / $imgwidth) * $imgheight;
+                        } elseif($height == 0){
+                            $height = ($width / $imgheight) * $imgwidth;
                         }
+                
+                        $size = imagecreatetruecolor((int)$height, (int)$width);
+                
+                        imagecopyresampled($size, $file, 0, 0, 0, 0, (int)$height, (int)$width,  imagesx($file), imagesy($file));
+                
+                        $filesrc = '../cdn/' .uniqid(). '.jpg';
+                
+                        imagejpeg($size, $filesrc, 80);
+
+                        imagedestroy($file);
+                        imagedestroy($size);
+
+                        return $filesrc;
                     }
 
                     // Омагад, костыли
@@ -261,13 +309,13 @@
                         if($_FILES['file']['error'] == 0){
                             if(!unlink(fuckimg($_FILES['file']['tmp_name'], 0, 50))){
                                 $error = 1;
-                                $response = array('error' => 'Bad image');
+                                $response = array('error' => $lang['api']['bad_image']);
                             }
                         }
                     }
 
                     if($error == 0){
-                        if(empty($img['img'])){
+                        if(!empty($img['img'])){
                             unlink($img['img50']);
                             unlink($img['img100']);
                             unlink($img['img200']);
@@ -282,13 +330,27 @@
                             WHERE id = " .$img['id']);
 
                         $response = array(1);
+                    } else {
+                        if(!empty($img['img'])){
+                            unlink($img['img50']);
+                            unlink($img['img100']);
+                            unlink($img['img200']);
+                            unlink($img['img']);
+                        } 
+
+                        $db->query("UPDATE users SET 
+                            img50='',
+                            img100='',
+                            img200='',
+                            img='' 
+                            WHERE id = " .$img['id']);
                     }
                 }
             } else{
                 http_response_code(403);
 
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -316,7 +378,7 @@
                 break;
             default:
                 http_response_code(400);
-                echo json_encode(array('error' => 'Invalid method'));
+                echo json_encode(array('error' => $lang['api']['invalid_method']));
                 break;
         }
 

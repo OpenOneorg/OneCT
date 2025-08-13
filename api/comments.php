@@ -7,7 +7,7 @@
 
     class comments{
         function get($token, $id, $page){
-            global $db, $url;
+            global $db, $url, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -16,17 +16,22 @@
                 if($get_user_token->rowCount() == 0){
                     http_response_code(403);
                     $response = array(
-                        'error' => 'Bad token'
+                        'error' => $lang['api']['bad_token']
                     );
                 } else {
                     $wall = $db->query("SELECT * FROM post WHERE id = " .(int)$id)->fetch(PDO::FETCH_ASSOC);
+                    $likes_count = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id)->rowCount();
+                    $youtlike = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id. " AND user_id = " .$get_user_token->fetch()['id']);
 
                     $response['post'] = [
                         'id' => (int)$wall['id'],
                         'id_from' => (int)$wall['id_user'],
                         'user_id' => (int)$wall['id_who'],
-                        'text' => $wall['post'],
-                        'date' => (int)$wall['date']
+                        'text' => htmlspecialchars($wall['post']),
+                        'text_html' => nl2br(htmlspecialchars($wall['post'])),
+                        'date' => (int)$wall['date'],
+                        'liked' => boolval($youtlike->rowCount()),
+                        'likes' => (int)$likes_count,
                     ];
 
                     if($wall['img'] != null){
@@ -37,7 +42,15 @@
 
                     $i = 0;
                     while($list = $query->fetch(PDO::FETCH_ASSOC)){
-                        $response['comments'][$i] = $list;
+                        $response['comments'][$i] = [
+                            'id' => (int)$list['id'],
+                            'post_id' => (int)$list['post_id'],
+                            'user_id' => (int)$list['user_id'],
+                            'text' => htmlspecialchars($list['text']),
+                            'text_html' => nl2br(htmlspecialchars($list['text'])),
+                            'date' => (int)$list['date']
+                        ];
+    ;
 
                         $i++;
                     }
@@ -47,7 +60,7 @@
             } else{
                 http_response_code(403);
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -55,7 +68,7 @@
         }
 
         function delete($token, $id){
-            global $db;
+            global $db, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -65,7 +78,7 @@
                 if($get_user_token->rowCount() == 0){
                     http_response_code(403);
                     $response = array(
-                        'error' => 'Bad token'
+                        'error' => $lang['api']['bad_token']
                     );
                 } else {
                     if($user_data['ban'] == 1){
@@ -86,7 +99,7 @@
             } else{
                 http_response_code(403);
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -95,7 +108,7 @@
 
         // Ладно, тут будут комментарии
         function add($token, $text, $id){
-            global $db, $antispam;
+            global $db, $antispam, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -105,7 +118,7 @@
                 if($get_user_token->rowCount() == 0){
                     http_response_code(403);
                     $response = array(
-                        'error' => 'Bad token'
+                        'error' => $lang['api']['bad_token']
                     );
                 } else {
                     $error = 0;
@@ -114,14 +127,14 @@
                     if(empty(trim($text))){
                         $error = 1;
                         http_response_code(400);
-                        $response = array('error' => 'No text');
+                        $response = array('error' => $lang['api']['no_text']);
                     }
 
                     // Да над каким постом ты будешь делать комментарий?
                     if((int)$id <= 0){
                         $error = 1;
                         http_response_code(400);
-                        $response = array('error' => 'No post id');
+                        $response = array('error' => $lang['api']['no_post_id']);
                     }
 
                     // Система поиска спамеров активирована
@@ -132,7 +145,7 @@
                         if($date <= $antispam){
                             $error = 1;
                             http_response_code(400);
-                            $response = array('error' => 'Antispam system', 'left' => $antispam - $date);
+                            $response = array('error' => $lang['api']['antispam'], 'left' => $antispam - $date);
                         }
                     }
 
@@ -155,7 +168,7 @@
             } else{
                 http_response_code(403);
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -181,7 +194,7 @@
                 break;
             default:
                 http_response_code(400);
-                echo json_encode(array('error' => 'Invalid method'));
+                echo json_encode(array('error' => $lang['api']['invalid_method']));
                 break;
         }
 

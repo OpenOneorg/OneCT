@@ -1,6 +1,7 @@
 <?php
     require_once '../include/config.php';
     include '../include/web/user.php';
+    require '../vendor/autoload.php';
 
     include "../api/user.php";
     include "../api/wall.php";
@@ -9,10 +10,29 @@
     $user = new user();
     $wall = new wall();
 
+    $data_group = array(
+        'owner_id' => 0,
+        'admin' => [0]
+    );
+
+    $_GET['p'] = (int)$_GET['p'];
+
+    class Post {
+        public function isbuttons($i) {
+            global $from_ids, $user_ids;
+
+            if($user_ids[$i]['id'] == $_SESSION['user']['user_id'] or $from_ids[$i]['id'] == $_SESSION['user']['user_id'] or $_SESSION['user']['priv'] >= 2){
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
     // Выкладывание поста
 
     if(isset($_POST['do_post'])){
-        $result = $wall->add($_SESSION['user']['token'], $_POST['text'], $_SESSION['user']['user_id']);
+        $result = $wall->add($_SESSION['user']['token'], $_POST['text'], $_SESSION['user']['user_id'], 0);
         if(isset($result['error'])){
             $text = $result['error'];
         }
@@ -56,9 +76,26 @@
         $from_ids = $from_ids . (string)$data['id_from'] . ',';
         $i++;
     }
-
+    
     $user_ids = $user->getuser($user_ids);
     $from_ids = $user->getuser($from_ids);
-?>
 
-<?php require "../themes/{$_SESSION['theme']}/feed/feed.php";  ?>
+    $post = new Post();
+
+    use Smarty\Smarty;
+    $smarty = new Smarty();
+
+    if($_SESSION['theme_type'] == 1){
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$_SESSION['theme']. '/feed');
+    } elseif($_SESSION['theme_type'] == 2) {
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$style. '/feed');
+    }
+    $smarty->assign('post', $post);
+    $smarty->assign('text', $text);
+    $smarty->assign('data_wall', $data_wall);
+    $smarty->assign('from_ids', $from_ids);
+    $smarty->assign('user_ids', $user_ids);
+    include '../include/web/template.php';
+
+    $smarty->display('feed.tpl');
+?>

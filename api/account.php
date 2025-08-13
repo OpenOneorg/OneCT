@@ -9,27 +9,30 @@
 
     class account{
         function login($email, $pass, $code){
-            global $db;
+            global $db, $lang, $mail_activation;
             $response = array();
             
             $query = $db->query("SELECT token, pass, id, ban, secret FROM users WHERE email = " .$db->quote($email));
             $info = $query->fetch();
 
-            // Ты точно есть?
-
-            if($query->rowCount() == 0){
-                $response = array('error' => 'Bad login or password');
+            if($mail_activation) {
+                if($info['auth'] == 0){
+                    $response = array(
+                        'error' => $lang['api']['acc_not_act']
+                    );
+                }
             }
 
             // Ты наш или лживый говнюк?
 
             if(!password_verify($pass, $info['pass'])){
-                $response = array('error' => 'Bad login or password');
+                $response = array('error' => $lang['api']['bad_login']);
             }
 
-            if($info['ban'] == 1){
-                $db->query("UPDATE users SET token='' WHERE email=" .$db->quote($_REQUEST['email']));
-                $response = array('error' => 'Your account has been banned');
+            // Ты точно есть?
+
+            if($query->rowCount() == 0){
+                $response = array('error' => $lang['api']['bad_login']);
             }
 
             if($info['secret'] != NULL){
@@ -44,8 +47,14 @@
                 if($otp->checkTotp(Encoding::base32DecodeUpper($info['secret']), $code)) {
                     
                 } else{
-                    $response = array('error' => 'Bad 2fa code');
+                    $response = array('error' => $lang['api']['bad_2fa']);
                 }
+            }
+
+
+            if($info['ban'] == 1){
+                $db->query("UPDATE users SET token='' WHERE email=" .$db->quote($_REQUEST['email']));
+                $response = array('error' => $lang['api']['account_ban']);
             }
 
             // Проходи
@@ -76,7 +85,7 @@
         }
 
         function check($token){
-            global $db;
+            global $db, $lang;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -109,7 +118,7 @@
                 }
             } else{
                 $response = array(
-                    'error' => 'Bad token'
+                    'error' => $lang['api']['bad_token']
                 );
             }
 
@@ -131,7 +140,7 @@
                 break;
             default:
                 http_response_code(400);
-                echo json_encode(array('error' => 'Invalid method'));
+                echo json_encode(array('error' => $lang['api']['invalid_method']));
                 break;
         }
 

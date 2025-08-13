@@ -37,14 +37,18 @@
 
             $langs = getInfos('../lang', 'lang.json', 'lang_name');
             $themes = getInfos('../themes', 'theme.json', 'name');
+            $them_type = getInfos('../themes', 'theme.json', 'type');
 
             if(isset($_POST['do_change'])){
                 $result = $user->change($_SESSION['user']['token'], $_POST['name'], $_POST['desc'], $_POST['yespost']);
                 $_SESSION['lang'] = $_POST['language'];
                 $_SESSION['theme'] = $_POST['theme'];
+                $_SESSION['theme_type'] = $them_type[$_POST['theme']];
+
+                header("Refresh:0");
             }
 
-            $data = $user->profile($_SESSION['user']['token'], $_SESSION['user']['user_id']);
+            $data = $user->profile($_SESSION['user']['token']);
             break;
         case 'pass':
             $change = "UPDATE users SET pass = '" .password_hash($_POST['pass'], PASSWORD_DEFAULT). "' WHERE id = '" .$_SESSION['user']['user_id']. "'";
@@ -52,15 +56,15 @@
 
             if(isset($_POST['do_change'])){
                 if(!password_verify($_POST['oldpass'], $user['pass'])){
-                    $error = lang_old_pass_no;
+                    $error = $lang['old_pass_no'];
                 }
 
                 if($_POST['pass'] != $_POST['pass2']){
-                    $error = lang_2_pass_no;
+                    $error = $lang['2_pass_no'];
                 }
 
                 if(empty(trim($_POST['pass']))){
-                    $error = lang_pass_empty;
+                    $error = $lang['pass_empty'];
                 }
                 
                 if(empty($error)){
@@ -79,7 +83,7 @@
                         $db->query($query);
                         header('Location: settings.php');
                     } else{
-                        $text = lang_no_code;
+                        $text = $lang['no_code'];
                     }
                 }
             
@@ -93,7 +97,7 @@
                     $user = $db->query('SELECT pass FROM users where id = ' .(int)$_SESSION['user']['user_id'])->fetch();
 
                     if(!password_verify($_POST['pass'], $user['pass'])){
-                        $error = lang_pass_no;
+                        $error = $lang['pass_no'];
                     }
     
                     if(empty($error)){
@@ -104,22 +108,42 @@
             }
             break;
     }
-?>
- 
-<?php
+
+    use Smarty\Smarty;
+    $smarty = new Smarty();
+
+    if($_SESSION['theme_type'] == 1){
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$_SESSION['theme']. '/settings');
+    } elseif($_SESSION['theme_type'] == 2) {
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$style. '/settings');
+    }
+
+    $smarty->assign('data', $data);
+    $smarty->assign('langs', $langs);
+    $smarty->assign('themes', $themes);
+    $smarty->assign('user_account', $user_account);
+    include '../include/web/template.php';
+
     switch($_GET['page']){
         case NULL:
-            require "../themes/{$_SESSION['theme']}/settings/settings.php";
+            $smarty->display('settings.tpl');
             break;
         case 'pass':
-            require "../themes/{$_SESSION['theme']}/settings/pass.php";
+            $smarty->assign('error', $error);
+            $smarty->display('pass.tpl');
             break;
         case 'otp':
+            $smarty->assign('secret', $secret);
+            $smarty->assign('text', $text);
+            $smarty->assign('qrimg', $qrimg);
+            $smarty->assign('error', $error);
+
             if($user_account['2fa'] == 0){
-                require "../themes/{$_SESSION['theme']}/settings/otp.php";
+                $smarty->display('otp.tpl');
             } else {
-                require "../themes/{$_SESSION['theme']}/settings/dotp.php";
+                $smarty->display('dotp.tpl');
             }
             break;
     }
+?>
 ?>

@@ -6,11 +6,21 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit2185d2f99bcd56787481d9357a5972d3
 {
+    public static $files = array (
+        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
+        'c15d4a1253e33e055d05e547c61dcb71' => __DIR__ . '/..' . '/smarty/smarty/src/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
         'c' => 
         array (
             'chillerlan\\Traits\\' => 18,
             'chillerlan\\QRCode\\' => 18,
+        ),
+        'S' => 
+        array (
+            'Symfony\\Polyfill\\Mbstring\\' => 26,
+            'Smarty\\' => 7,
         ),
         'P' => 
         array (
@@ -31,6 +41,14 @@ class ComposerStaticInit2185d2f99bcd56787481d9357a5972d3
         'chillerlan\\QRCode\\' => 
         array (
             0 => __DIR__ . '/..' . '/chillerlan/php-qrcode/src',
+        ),
+        'Symfony\\Polyfill\\Mbstring\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
+        ),
+        'Smarty\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/smarty/smarty/src',
         ),
         'ParagonIE\\ConstantTime\\' => 
         array (

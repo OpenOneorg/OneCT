@@ -2,6 +2,7 @@
     "require": {
         "phpmailer/phpmailer": "^6.9",
         "chillerlan/php-qrcode": "2.0.8",
-        "christian-riesen/otp": "^2.7"
+        "christian-riesen/otp": "^2.7",
+        "smarty/smarty": "^5.5"
     }
 }

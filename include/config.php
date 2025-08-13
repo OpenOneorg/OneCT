@@ -5,10 +5,9 @@
 
     $url = 'http://' .$_SERVER['HTTP_HOST'] /* . '/newct' */;
     $sitename = 'OneCt';
-    $siteadmintg = '@dibof228';
     $style = 'std';
-    $antispam = 60;
-    $lang = "ru";
+    $antispam = 0;
+    $mail_activation = false;
     $links = array(
         'Telegram' => 'https://t.me/openone_channel',
         'Github' => 'https://github.com/OpenOneorg/onect',
@@ -30,34 +29,45 @@
 
     if(!isset($_SESSION['theme'])){
         $_SESSION['theme'] = $style;
+        $_SESSION['theme_type'] = 1;
     }
     
     if(!isset($_SESSION['lang'])){
-        $_SESSION['lang'] = $lang;
+        if(is_dir('../lang/' . substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2))){
+            $_SESSION['lang'] = substr($_SERVER['HTTP_ACCEPT_LANGUAGE'], 0, 2);
+        } else {
+            $_SESSION['lang'] = 'en';
+        }
     }
 
-    include "../lang/{$_SESSION['lang']}/lang.php";
+    // Для API
+
+    if(!include "../lang/{$_SESSION['lang']}/lang.php"){
+        if(!include "../lang/en/lang.php"){
+            include "../lang/ru/lang.php";
+        }
+    }
 
     if(isset($_SESSION['user']['token'])){
         $side_menu = array(
-            lang_home => 'index.php',
-            lang_feed => 'feed.php',
-            lang_search => 'search.php',
-            lang_settings => 'settings.php'
+            $lang['home'] => 'index.php',
+            $lang['feed'] => 'feed.php',
+            $lang['search'] => 'search.php',
+            $lang['settings'] => 'settings.php'
         );
 
         if($_SESSION['user']['priv'] == 3){
-            $side_menu[lang_admin_panel] = '../admin';
+            $side_menu[$lang['admin_panel']] = '../admin';
         }
     } else {
         $side_menu = array(
-            lang_login => 'login.php',
-            lang_reg => 'reg.php'
+            $lang['login'] => 'login.php',
+            $lang['reg'] => 'reg.php'
         );
     }
 
     $footer_links = array(
-        lang_terms => 'index.php?page=terms',
-        lang_authors => 'index.php?page=authors'
+        $lang['terms'] => 'index.php?page=terms',
+        $lang['authors'] => 'index.php?page=authors'
     )
 ?>

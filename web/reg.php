@@ -1,5 +1,6 @@
 <?php 
     require_once '../include/config.php';
+	require '../vendor/autoload.php';
 
 	ini_set('display_errors', false);
 
@@ -16,42 +17,58 @@
             '" .password_hash($_POST['pass'], PASSWORD_DEFAULT). "', 
             " .$db->quote($_SERVER['REMOTE_ADDR']). ")";
 
+		if(!$mail_activation){
+			if($db->query($checkip)->rowCount() != 0){
+				$text = $lang['full_ip'];
+			}
+		}
+		
 		if(empty(trim($_POST['username']))){
-			$text = lang_no_user;
+			$text = $lang['no_user'];
 		}
 						
 		if(empty(trim($_POST['email']))){
-			$text = lang_no_email;
+			$text = $lang['no_email'];
 		}
 						
 		if(empty(trim($_POST['pass']))){
-			$text = lang_no_pass;
+			$text = $lang['no_pass'];
 		}	
 						
 		if($_POST['pass2'] != $_POST['pass'] ){
-			$text = lang_no_2_pass;
+			$text = $lang['no_2_pass'];
 		}
 
 		if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)){
-			$text = lang_invalid_email;
+			$text = $lang['invalid_email'];
 		}
 						
 		if($db->query($checkemail)->rowCount() != 0){
-			$text = lang_full_email;
+			$text = $lang['full_email'];
 		}	
 		
 		if($_SESSION['code'] != $_POST['captcha']){
-			$text = lang_no_captcha;
+			$text = $lang['no_captcha'];
 		}	
 
 		if(empty(trim($text))){
 			if($db->query($createacc)){
-				$text = lang_yes_reg;
+				$text = $lang['yes_reg'];
 			} else {
-				$text = lang_server_error;
+				$text = $lang['server_error'];
 			}
 		}
 	}
-?>
 
-<?php require "../themes/{$_SESSION['theme']}/auth/reg.php"; ?>
+	use Smarty\Smarty;
+    $smarty = new Smarty();
+
+	if($_SESSION['theme_type'] == 1){
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$_SESSION['theme']. '/auth');
+    } elseif($_SESSION['theme_type'] == 2) {
+        $smarty->setTemplateDir(__DIR__ . '/../themes/' .$style. '/auth');
+    }
+    $smarty->assign('text', $text);
+    include '../include/web/template.php';
+	$smarty->display('reg.tpl');
+?>
