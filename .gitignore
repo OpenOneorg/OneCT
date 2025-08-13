@@ -1,0 +1,3 @@
+web/templates_c/
+cdn/*
+!cdn/files here.txt

@@ -14,7 +14,7 @@
                     {$lang.unbind}
                 </button>
             </p>
-            </form>
-            <p>{$error}</p>
+        </form>
+        <p>{$error}</p>
     </div><br>
 {/block}

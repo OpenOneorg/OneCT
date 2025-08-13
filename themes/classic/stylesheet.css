@@ -1,0 +1,355 @@
+*{
+	font-family: sans-serif;
+	word-break: break-word;
+}
+
+body {
+	color: black;
+	background: #E0E0E0;
+	margin: 0;
+}
+
+
+.header {
+	display: block;
+   	background: #4A148C;
+	color: white;
+	text-decoration: none;
+	padding: 16px;
+	padding-bottom: 48px;
+   	font-size: 24px;
+	box-shadow: 0px 5px 8px rgba(0,0,0,0.5);
+	left: 0;
+	position: sticky;
+    right: 0;
+	top: 0;
+    z-index: 1;
+}
+
+@media screen and (max-width: 510px){
+	.header {
+		padding-bottom: 80px;
+	}
+}
+
+.header a {
+	color: white;
+	text-decoration: none;
+}
+
+.header .sitename {
+	float: left;
+}
+
+.header .href {
+	margin-left: 12px;
+	float: right;
+}
+
+.main_app {
+	margin: 0 auto;
+	max-width: 580px;
+}
+
+.main {
+	background: #FAFAFA;
+    padding: 16px;
+	box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+	border-radius: 0px 0px 4px 4px;
+}
+
+.main .info {
+	padding: 8px;
+	padding-top: 32px;
+}
+
+.changeuser {
+	text-align: right;
+}
+
+.changeuser a {
+	color: black;
+	text-decoration: none;
+}
+
+.file {
+	font-size: 16px;
+	display: block;
+	height: auto !important;
+	background: none !important;
+	box-shadow: none !important;
+	padding: 0px !important;
+}
+
+.file::file-selector-button {
+	font-size: 16px;
+	height: 32px;
+	background: #F5F5F5;
+	border: none;
+	height: auto !important;
+	padding: 16px;
+	border-radius: 4px;
+	margin: 8px;
+	margin-right: 16px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+
+.main input {
+	color: black;
+	font-size: 16px;
+	width: 100%;
+	display: block;
+	height: 32px;
+	background: #F5F5F5;
+	border: none;
+	padding: 8px;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 4px;
+	margin-bottom: 16px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+
+.main select {
+	color: black;
+	font-size: 16px;
+	width: 100%;
+	display: block;
+	height: 32px;
+	background: #F5F5F5;
+	border: none;
+	padding: 4px;
+	padding-left: 16px;
+	padding-right: 16px;
+	border-radius: 4px;
+	margin-bottom: 16px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+
+.main textarea {
+	color: black;
+	font-size: 16px;
+	width: 100%;
+	display: block;
+	height: 32px;
+	background: #F5F5F5;
+	border: none;
+	padding: 16px;
+	border-radius: 4px;
+	margin-bottom: 16px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+	height: 200px;
+	resize: none;
+}
+
+.main button {
+	display: block;
+	font-size: 16px;
+	background: #EEEEEE;
+	width: 100%;
+	padding: 16px;
+	border: none;
+	border-radius: 4px;
+	margin-bottom: 16px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.5);
+}
+
+.main .user {
+	width: 100%;
+}
+
+.main .img100{
+	width: 100px;
+}
+
+.main .user .info {
+	padding-left: 8px;
+	padding-top: 16px;
+}
+.main a {
+	color: black;
+	text-decoration: none;
+}
+
+.main .img {
+	width: 100%;
+}
+
+.head {
+	display: block;
+	background: #6A1B9A;
+	padding: 16px;
+	margin: 0px;
+	margin-top: 8px;
+	border-radius: 4px 4px 0px 0px;
+	text-align: center;
+	color: white;
+	box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+}
+
+/* Для постов */
+
+.wall {
+	text-align: left;
+}
+
+.wall .error {
+	text-align: center;
+	padding: 16px;
+}
+
+.posting {
+	display: block;
+	background-color: #FAFAFA;
+	border-radius: 0px 0px 4px 4px;
+	box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+}
+
+.posting .postarea {
+	display: block;
+	font-size: 16px;
+	background: #FAFAFA;
+	border: none;
+	resize: none;
+	padding: 16px;
+	width: 100%;
+	height: 200px;
+}
+
+.posting .do_post {
+	display: block;
+	background: #EEEEEE;
+	font-size: 16px;
+	width: 100%;
+	padding: 16px;
+	border: none;
+	border-radius: 0px 0px 4px 4px;
+	box-shadow: 0px 5px 10px rgba(0,0,0,0.25);
+}
+
+.posting .detail{
+	padding: 16px;
+}
+
+.posting .detail a {
+	color: black;
+	text-decoration: none;
+}
+
+.posting .detail #menu{
+	display: none;
+}
+
+.posting .detail #menu input{
+	width: 100%;
+}
+
+.block {
+	display: block;
+	background: #FAFAFA;
+	margin: 8px;
+	margin-bottom: 0px;
+	padding: 16px;
+	border-radius: 4px 4px 0px 0px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.75);
+	color: black;
+	text-decoration: none;
+}
+
+.opencom {
+	display: block;
+	background: #FAFAFA;
+	margin: 8px;
+	margin-top: 0px;
+	padding: 16px;
+	border-radius: 0px 0px 4px 4px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.75);
+	color: black;
+}
+
+.opencom a {
+	color: black;
+	text-decoration: none;
+}
+
+.block .user {
+	color: black;
+	text-decoration: none;
+}
+
+.block .buttons {
+	float: right;
+}
+
+.block .buttons a {
+	color: black;
+	text-decoration: none;
+}
+
+.block #selected a {
+	color: #6A1B9A;
+	text-decoration: none;
+}
+
+.block .date {
+	color: darkgray;
+}
+
+.user a {
+	color: black;
+	text-decoration: none;
+}
+
+.block .img {
+	margin-top: 8px;
+	width: 100%;
+}
+
+.pages{
+	height: 72px;
+}
+
+.back {
+	width: 30%;
+	display: block;
+	float: left;
+	background: #FAFAFA;
+	margin: 8px;
+	padding: 16px;
+	border-radius: 4px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.75);
+	color: black;
+	text-decoration: none;
+}
+
+.next {
+	width: 30%;
+	display: block;
+	float: right;
+	background: #FAFAFA;
+	margin: 8px;
+	padding: 16px;
+	border-radius: 4px;
+	box-shadow: 0px 2px 5px rgba(0,0,0,0.75);
+	color: black;
+	text-decoration: none;
+}
+
+.footer{
+	display: block;
+	text-align: center;
+	background: #FAFAFA;
+    padding: 16px;
+	margin-top: 32px;
+	box-shadow: 0px 5px 10px rgba(0,0,0,0.5);
+	border-radius: 4px;
+}
+
+.footer a {
+	color: #6A1B9A;
+	text-decoration: none;
+}
+
+.footer .links .link {
+	margin: 8px;
+}

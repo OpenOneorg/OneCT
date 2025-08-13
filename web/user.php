@@ -6,8 +6,6 @@
     include "../api/user.php";
     include "../api/wall.php";
 
-    ini_set("display_errors", "false");
-
     $text = '';
     $user = new user();
     $wall = new wall();
