@@ -16,7 +16,6 @@ body {
 	color: white;
 	text-decoration: none;
 	padding: 16px;
-	padding-bottom: 48px;
    	font-size: 24px;
 	box-shadow: 0px 5px 8px rgba(0,0,0,0.5);
 	left: 0;
@@ -26,10 +25,10 @@ body {
     z-index: 1;
 }
 
-@media screen and (max-width: 510px){
-	.header {
-		padding-bottom: 80px;
-	}
+.clearfix::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 .header a {

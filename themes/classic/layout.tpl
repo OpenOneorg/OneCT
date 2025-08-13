@@ -10,7 +10,7 @@
     <body>
         {* Хэдер *}
 
-        <div class="header">
+        <div class="header clearfix">
             <a class="sitename"><?php echo($sitename); ?>
                 {$sitename}
             </a>

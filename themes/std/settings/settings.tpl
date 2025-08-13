@@ -19,14 +19,12 @@
 					<option 
                         value="0"
                         {if $data.openwall == NULL}selected{/if}>
-                        
                         {$lang.cant}
                     </option>
 
 					<option 
                         value="1"
                         {if $data.openwall == 1}selected{/if}>
-
                         {$lang.can}
                     </option>
 				</select>
