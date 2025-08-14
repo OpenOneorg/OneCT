@@ -57,7 +57,7 @@
     $lang['attach'] = 'Attach';
     $lang['img'] = 'Image';
     $lang['pin'] = 'Pinned';
-    $lang['date'] = 'd M Y at H:i';
+    $lang['date'] = 'd M Y \a\t H:i';
     $lang['by'] = 'By';
     $lang['comments'] = 'Comments';
     $lang['back'] = 'Back';
