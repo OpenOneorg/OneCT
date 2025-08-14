@@ -6,7 +6,7 @@
     $url = 'http://localhost'; // Туда пишем домен вашего сайта
     $sitename = 'OneCt';
     $style = 'std';
-    $antispam = 0;
+    $antispam = 30;
     $mail_activation = false;
     $links = array(
         'Telegram' => 'https://t.me/openone_channel',
