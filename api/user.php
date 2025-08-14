@@ -22,7 +22,7 @@
                 } else {
                     // Узнаём про тебя
 
-                    $user_data = $get_user_token->fetch();
+                    $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
                     $response = array(
                         'id' => (int)$user_data['id'],
@@ -77,7 +77,7 @@
                 // Сам разберёшься
 
                 foreach($user_ids as &$ids){
-                    $user_data = $db->query("SELECT * FROM users WHERE id = '" .(int)$ids. "'")->fetch();
+                    $user_data = $db->query("SELECT * FROM users WHERE id = '" .(int)$ids. "'")->fetch(PDO::FETCH_ASSOC);
                     
                     if(!empty($user_data)){
                         $response[$i] = [
@@ -145,7 +145,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($user_data['ban'] == 1){
@@ -216,7 +216,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $img = $get_user_token->fetch();
+            $img = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){

@@ -13,7 +13,7 @@
             $response = array();
             
             $query = $db->query("SELECT token, pass, id, ban, secret FROM users WHERE email = " .$db->quote($email));
-            $info = $query->fetch();
+            $info = $query->fetch(PDO::FETCH_ASSOC);
 
             if($mail_activation) {
                 if($info['auth'] == 0){
@@ -89,7 +89,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($user_data['ban'] == 1){

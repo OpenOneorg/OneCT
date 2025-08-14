@@ -35,7 +35,7 @@
                 } else {
                     $wall = $db->query("SELECT * FROM post WHERE id = " .(int)$id)->fetch(PDO::FETCH_ASSOC);
                     $likes_count = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id)->rowCount();
-                    $youtlike = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id. " AND user_id = " .$get_user_token->fetch()['id']);
+                    $youtlike = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id. " AND user_id = " .$get_user_token->fetch(PDO::FETCH_ASSOC)['id']);
 
                     $response['post'] = [
                         'id' => (int)$wall['id'],
@@ -86,7 +86,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -100,7 +100,7 @@
                         header("Refresh: 0");
                     }
                     
-                    $post = $db->query("SELECT * FROM comments WHERE id = " .(int)$id)->fetch();
+                    $post = $db->query("SELECT * FROM comments WHERE id = " .(int)$id)->fetch(PDO::FETCH_ASSOC);
 
                     if($post['user_id'] == $user_data['id'] or $user_data['priv'] >= 2){
                         $db->query("DELETE FROM comments WHERE id = " .(int)$id);
@@ -126,7 +126,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -153,7 +153,7 @@
 
                     // Система поиска спамеров активирована
                     if(true){
-                        $recent = $db->query("SELECT * FROM comments WHERE user_id =  " .(int)$user_data['id']. " ORDER BY date DESC")->fetch();
+                        $recent = $db->query("SELECT * FROM comments WHERE user_id =  " .(int)$user_data['id']. " ORDER BY date DESC")->fetch(PDO::FETCH_ASSOC);
                         $date = time() - $recent['date'];
             
                         if($date <= $antispam){

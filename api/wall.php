@@ -11,7 +11,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_id = $get_user_token->fetch()['id'];
+            $user_id = $get_user_token->fetch(PDO::FETCH_ASSOC)['id'];
             function makeLinks($text) {
                 $pattern = '~((https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/\S*)?)~i';
                 
@@ -75,7 +75,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_id = $get_user_token->fetch()['id'];
+            $user_id = $get_user_token->fetch(PDO::FETCH_ASSOC)['id'];
             function makeLinks($text) {
                 $pattern = '~((https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/\S*)?)~i';
                 
@@ -140,7 +140,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -151,7 +151,7 @@
                 } else {
                     $error = 0;
 
-                    $post = $db->query("SELECT * FROM post WHERE id = " .(int)$id)->fetch();
+                    $post = $db->query("SELECT * FROM post WHERE id = " .(int)$id)->fetch(PDO::FETCH_ASSOC);
 
                     if((int)$post['id_user'] >= 0){
                         if($post['id_user'] != $user_data['id'] and $post['id_who'] != $user_data['id']){
@@ -205,7 +205,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -214,8 +214,8 @@
                         'error' => $lang['api']['bad_token']
                     );
                 } else  {
-                    $like_data = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id. " AND user_id = " .$user_data['id'])->fetch();
-                    $post_id = $db->query("SELECT * FROM post WHERE id = '" .(int)$id. "'")->fetch();
+                    $like_data = $db->query("SELECT * FROM likes WHERE post_id = " .(int)$id. " AND user_id = " .$user_data['id'])->fetch(PDO::FETCH_ASSOC);
+                    $post_id = $db->query("SELECT * FROM post WHERE id = '" .(int)$id. "'")->fetch(PDO::FETCH_ASSOC);
 
                     if(!empty($post_id)){
                         if(!empty($like_data)){
@@ -250,7 +250,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -259,7 +259,7 @@
                         'error' => $lang['api']['bad_token']
                     );
                 } else{
-                    $post = $db->query("SELECT * FROM post WHERE id = " .(int)$id)->fetch();
+                    $post = $db->query("SELECT * FROM post WHERE id = " .(int)$id)->fetch(PDO::FETCH_ASSOC);
                     $error = 0;
 
                     if((int)$post['id_user'] >= 0){
@@ -316,7 +316,7 @@
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
-            $user_data = $get_user_token->fetch();
+            $user_data = $get_user_token->fetch(PDO::FETCH_ASSOC);
 
             if(!empty(trim($token)) or $token != null){
                 if($get_user_token->rowCount() == 0){
@@ -343,7 +343,7 @@
                     if((int)$id >= 0){
                         if((int)$id != $user_data['id']){
                             $owner = $db->query("SELECT yespost FROM users WHERE id = " .(int)$id);
-                            if($owner->fetch()['yespost'] == 0){
+                            if($owner->fetch(PDO::FETCH_ASSOC)['yespost'] == 0){
                                 $error = 1;
                                 http_response_code(400);
                                 $response = array('error' => $lang['api']['wall_access_denied']);
@@ -382,7 +382,7 @@
                     }
 
                     if(true){
-                        $recent = $db->query("SELECT * FROM post WHERE id_who = " .(int)$user_data['id']. " ORDER BY date DESC")->fetch();
+                        $recent = $db->query("SELECT * FROM post WHERE id_who = " .(int)$user_data['id']. " ORDER BY date DESC")->fetch(PDO::FETCH_ASSOC);
                         $date = time() - $recent['date'];
             
                         if($date <= $antispam){
