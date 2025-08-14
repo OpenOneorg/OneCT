@@ -11,7 +11,7 @@
         {* Хэдер *}
 
         <div class="header clearfix">
-            <a class="sitename">
+            <a class="sitename"><?php echo($sitename); ?>
                 {$sitename}
             </a>
 
