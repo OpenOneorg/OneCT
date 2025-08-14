@@ -3,7 +3,7 @@
 
     session_start();
 
-    $url = 'http://' .$_SERVER['HTTP_HOST'] /* . '/newct' */;
+    $url = 'http://localhost'; // Туда пишем домен вашего сайта
     $sitename = 'OneCt';
     $style = 'std';
     $antispam = 0;
