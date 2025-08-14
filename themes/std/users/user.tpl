@@ -2,10 +2,6 @@
 
 {block name=title}{$data_user.0.username} -- {$sitename}{/block}
 
-{block name=head}
-    <script src="{$themedir}/js.js"></script>
-{/block}
-
 {block name=body}
     <div class="page">
         {* Аватарка пользователя *}

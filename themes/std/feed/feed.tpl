@@ -2,10 +2,6 @@
 
 {block name=title}{$lang.feed} -- {$sitename}{/block}
 
-{block name=head}
-    <script src="{$themedir}/js.js"></script>
-{/block}
-
 {block name=body}
     <div class="page">
         {* Блок для постинга *}

@@ -6,6 +6,7 @@
         <link rel="stylesheet" href="{$themedir}/stylesheet.css">
         <link rel="shortcut icon" href="../favicon.png" type="image/x-icon">
         <title>{block name=title}Default Page Title{/block}</title>
+        <script src="{$themedir}/js.js"></script>
         {block name=head}{/block}
     </head>
     <body>
