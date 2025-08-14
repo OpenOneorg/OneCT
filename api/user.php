@@ -76,7 +76,7 @@
 
                 // Сам разберёшься
 
-                foreach($user_ids as &$ids){
+                foreach($user_ids as $ids){
                     $user_data = $db->query("SELECT * FROM users WHERE id = '" .(int)$ids. "'")->fetch(PDO::FETCH_ASSOC);
                     
                     if(!empty($user_data)){
