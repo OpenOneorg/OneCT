@@ -35,9 +35,10 @@
         $result = $wall->add($_SESSION['user']['token'], $_POST['text'], $_SESSION['user']['user_id'], 0);
         if(isset($result['error'])){
             $text = $result['error'];
+            if(isset($result['left'])){
+                $text = $text . $lang['left1'] . $result['left'] . $lang['left2'];
+            }
         }
-        header("Location: feed.php");
-        exit();
     }
 
     // Лайк
@@ -98,4 +99,3 @@
     include '../include/web/template.php';
 
     $smarty->display('feed.tpl');
-?>

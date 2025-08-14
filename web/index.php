@@ -33,4 +33,3 @@ require '../vendor/autoload.php';
             $smarty->display('authors.tpl');
             break;
     };
-?>

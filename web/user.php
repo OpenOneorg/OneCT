@@ -32,6 +32,9 @@
                 $result = $wall->add($_SESSION['user']['token'], $_POST['text'], $_GET['id'], 0);
                 if(isset($result['error'])){
                     $text = $result['error'];
+                    if(isset($result['left'])){
+                        $text = $text . $lang['left1'] . $result['left'] . $lang['left2'];
+                    }
                 }
             }
 
@@ -163,4 +166,3 @@
             $smarty->display('avatar.tpl');
             break;
     }
-?>

@@ -91,4 +91,3 @@
             $smarty->display('activation.tpl');
             break;
     }
-?>

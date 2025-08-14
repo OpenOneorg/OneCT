@@ -71,4 +71,3 @@
     $smarty->assign('text', $text);
     include '../include/web/template.php';
 	$smarty->display('reg.tpl');
-?>

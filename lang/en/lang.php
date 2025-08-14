@@ -44,7 +44,7 @@
     $lang['no_2_pass'] = 'Repeated password is incorrect!';
     $lang['invalid_email'] = 'Invalid email!';
     $lang['full_email'] = 'Email is already in use!';
-    $lang['full_ip'] = 'Someone has logged in using your IP. Try restarting your router.';
+    $lang['full_ip'] = 'Your IP address is already taken by a user';
     $lang['no_captcha'] = 'Incorrect CAPTCHA!';
     $lang['yes_reg'] = 'You have successfully registered';
     $lang['server_error'] = 'Server error';
@@ -89,6 +89,8 @@
     $lang['results'] = 'results';
     $lang['activation'] = 'Account activation';
     $lang['activation_text'] = 'An activation link has been sent to your email. Don\'t forget to check the spam folder.';
+    $lang['left1'] = ' Wait ';
+    $lang['left2'] = ' seconds';
 
     // Footer
 
@@ -105,7 +107,7 @@
     $lang['api']['no_text'] = 'No text.';
     $lang['api']['no_text_or_image'] = 'No text or image.';
     $lang['api']['no_post_id'] = 'No post ID specified.';
-    $lang['api']['antispam'] = 'Your request triggered the protection system. Please try again later.';
+    $lang['api']['antispam'] = 'The anti-spam system has been activated.';
     $lang['api']['no_user_id'] = 'No user ID specified.';
     $lang['api']['no_group_id'] = 'No group ID specified.';
     $lang['api']['not_found'] = 'Not found.';

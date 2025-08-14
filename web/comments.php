@@ -110,4 +110,3 @@
     $smarty->assign('data_wall', $data_wall);
     include '../include/web/template.php';
     $smarty->display('comments.tpl');
-?>
