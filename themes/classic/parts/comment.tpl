@@ -23,6 +23,6 @@
         <span>{$data_comment.date|date_format:$lang.date}</span><br>
 
     {* Текст комментария *}
-    <p>{$data_comment.text}</p>
+    <p>{$data_comment.text_html}</p>
 </div>
 <div class="opencom"></div>

@@ -10,6 +10,20 @@
             global $db, $url, $lang;
             $response = array();
             
+            function makeLinks($text) {
+                $pattern = '~((https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/\S*)?)~i';
+                
+                $replacedText = preg_replace_callback($pattern, function($matches) {
+                    $url = $matches[0];
+                    if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
+                        $url = 'http://' . $url;
+                    }
+                    return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $matches[0] . '</a>';
+                }, $text);
+                
+                return $replacedText;
+            }
+
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
 
             if(!empty(trim($token)) or $token != null){
@@ -28,7 +42,7 @@
                         'id_from' => (int)$wall['id_user'],
                         'user_id' => (int)$wall['id_who'],
                         'text' => htmlspecialchars($wall['post']),
-                        'text_html' => nl2br(htmlspecialchars($wall['post'])),
+                        'text_html' => makeLinks(nl2br(htmlspecialchars($wall['post']))),
                         'date' => (int)$wall['date'],
                         'liked' => boolval($youtlike->rowCount()),
                         'likes' => (int)$likes_count,
@@ -47,7 +61,7 @@
                             'post_id' => (int)$list['post_id'],
                             'user_id' => (int)$list['user_id'],
                             'text' => htmlspecialchars($list['text']),
-                            'text_html' => nl2br(htmlspecialchars($list['text'])),
+                            'text_html' => makeLinks(nl2br(htmlspecialchars($list['text']))),
                             'date' => (int)$list['date']
                         ];
     ;

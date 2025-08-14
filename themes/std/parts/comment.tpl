@@ -30,6 +30,6 @@
 
     {* Текст комментария *}
     <p>
-        {$data_comment.text}
+        {$data_comment.text_html}
     </p>
 </div>
