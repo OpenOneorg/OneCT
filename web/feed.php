@@ -78,8 +78,9 @@
         $i++;
     }
     
-    $user_ids = $user->getuser($user_ids);
-    $from_ids = $user->getuser($from_ids);
+    
+    $user_ids = $user->getuser(mb_substr($user_ids, 0, -1));
+    $from_ids = $user->getuser(mb_substr($from_ids, 0, -1));
 
     $post = new Post();
 

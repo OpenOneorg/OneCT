@@ -85,7 +85,7 @@
             $i++;
         }
 
-        $user_idss = $user->getuser($user_idss);
+        $user_idss = $user->getuser(mb_substr($user_idss, 0, -1));
         $user_post = $user->getuser($data_wall['post']['user_id']. ',' .$data_wall['post']['id_from']);
         $user_ids[0] = $user_post[0];
         $from_ids[0] = $user_post[1];
