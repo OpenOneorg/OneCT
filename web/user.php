@@ -76,6 +76,10 @@
             if($_GET['id'] == $_SESSION['user']['user_id']){
                 $data_user[0] = $user->profile($_SESSION['user']['token']);
                 $_SESSION['user']['priv'] = $data_user[0]['privilege'];
+
+                $site_header = array(
+                    $lang['change_avatar'] => '?page=avatar'
+                );
             } else{
                 $data_user = $user->getuser($_GET['id']);
             }
@@ -137,10 +141,6 @@
             break;
     }
 
-    $site_header = array(
-        $lang['change_avatar'] => '?page=avatar'
-    );
-
     use Smarty\Smarty;
     $smarty = new Smarty();
 
@@ -159,7 +159,7 @@
     include '../include/web/template.php';
 
     switch($_GET['page']){
-        case NULL:
+        case NULL:          
             $smarty->display('user.tpl');
             break;
         case 'avatar':
