@@ -62,7 +62,7 @@
 
                 <span class="likecount">{$data.likes}</span>
             </a>
-        </div>
+        </div><br>
     </div>
     
     {* Кнопка с комментариями *}
