@@ -747,7 +747,7 @@ class Parsedown
 
     protected function blockQuote($Line)
     {
-        if (preg_match('/^>[ ]?+(.*+)/', $Line['text'], $matches))
+        if (preg_match('/^(?:>[ \t]?)+(.*)/', $Line['text'], $matches))
         {
             $Block = array(
                 'element' => array(
@@ -771,16 +771,16 @@ class Parsedown
             return;
         }
 
-        if ($Line['text'][0] === '>' and preg_match('/^>[ ]?+(.*+)/', $Line['text'], $matches))
+        if (isset($Line['text'][0]) && $Line['text'][0] === '>' && preg_match('/^(?:>[ \t]?)+(.*)/', $Line['text'], $matches))
         {
-            $Block['element']['handler']['argument'] []= $matches[1];
+            $Block['element']['handler']['argument'][] = $matches[1];
 
             return $Block;
         }
 
         if ( ! isset($Block['interrupted']))
         {
-            $Block['element']['handler']['argument'] []= $Line['text'];
+            $Block['element']['handler']['argument'][] = $Line['text'];
 
             return $Block;
         }

@@ -106,7 +106,7 @@
                             $response[$i]['img100'] = $url . '/themes/std/imgs/blankimg.jpg';
                             $response[$i]['img200'] = $url . '/themes/std/imgs/blankimg.jpg';
                         }
-                    }else{
+                    }elseif((int)$ids <= -1){
                         $group_data = $db->query("SELECT * FROM groups WHERE id = '" .((int)$ids * -1). "'")->fetch(PDO::FETCH_ASSOC);
 
                         if(!empty($group_data)){
@@ -134,6 +134,11 @@
                                 'username' => $lang['api']['not_found']
                             ];
                         }
+                    } else {
+                        $response[$i] = [
+                            'id' => (int)$ids,
+                            'username' => $lang['api']['not_found']
+                        ];
                     }
 
                     $i++;
