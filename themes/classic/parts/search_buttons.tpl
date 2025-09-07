@@ -5,7 +5,7 @@
         </a>
     {/if}
 
-    {if $data_wall|count >= 50}
+    {if $data_count >= 51}
         <a class="next" href="?q={$smarty.get.q}&p={$smarty.get.p + 1}">
             {$lang.forward}
         </a>
