@@ -15,9 +15,11 @@
 
             <!-- Сами пользователи -->
 
-            {foreach $data as $list}
-                {include file="../parts/search_user.tpl"}
-            {/foreach}
+            <table>
+                {foreach $data as $list}
+                    {include file="../parts/search_user.tpl"}
+                {/foreach}
+            </table>
         </div>
 
         <!-- Навигация по страницам -->

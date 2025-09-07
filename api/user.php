@@ -2,12 +2,16 @@
     ini_set('display_errors', false); // Скрываем рукожопость автора
 
     require_once  "../include/config.php";
+    require_once "../include/libs/parsedown/Parsedown.php";
+    $Parsedown = new Parsedown();
+    $Parsedown->setSafeMode(true);
+    $Parsedown->setBreaksEnabled(true);
 
     class user{
         // Это же твой профиль
 
         function profile($token){
-            global $db, $url, $lang;
+            global $db, $url, $lang, $Parsedown;
             $response = array();
             
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
@@ -29,6 +33,7 @@
                         'email' => $user_data['email'],
                         'username' => htmlspecialchars($user_data['name']),
                         'description' => htmlspecialchars($user_data['descr']),
+                        'description_html' => $Parsedown->text($user_data['descr']),
                         'ban' => boolval($user_data['ban']),
                         'openwall' => boolval($user_data['yespost']),
                         'privilege' => (int)$user_data['priv']
@@ -59,7 +64,7 @@
         // Узнаём другим
 
         function getuser($id){
-            global $db, $url, $lang;
+            global $db, $url, $lang, $Parsedown;
             $response = array();
 
             if(empty($id)){
@@ -84,6 +89,7 @@
                             'id' => (int)$ids,
                             'username' => htmlspecialchars($user_data['name']),
                             'description' => htmlspecialchars($user_data['descr']),
+                            'description_html' => $Parsedown->text($user_data['descr']),
                             'ban' => boolval($user_data['ban']),
                             'openwall' => boolval($user_data['yespost']),
                             'privilege' => (int)$user_data['priv']
@@ -168,6 +174,7 @@
 
                     $username = "";
                     $open_wall = "";
+                    $description = "";
 
                     // Проверяем твою бездарность
                     
@@ -183,11 +190,17 @@
                         $open_wall = 0;
                     }
 
+                    if(mb_strlen($desc, 'UTF-8') >= 513){
+                        $description = $db->quote("");
+                    } else {
+                        $description = $db->quote($desc);
+                    }
+
                     // Мы поняли что ты написал
 
                     $query = "UPDATE users SET 
                         name = " .$username. ",
-                        descr = " .$db->quote($desc). ",
+                        descr = " .$description. ",
                         yespost = '" .(int)$open_wall. "' WHERE id = '" .$user_data['id']. "'";
 
                     if($db->query($query)){

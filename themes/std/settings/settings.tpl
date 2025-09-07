@@ -11,6 +11,7 @@
             </p>
             <p>
                 <p>{$lang.desc}: </p>
+                <p>{$lang.markdown_support}</p>
                 <textarea name="desc">{$data.description}</textarea>
             </p>
             <p>

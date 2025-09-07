@@ -9,10 +9,12 @@
 
             <h2>{$lang.authors_text2}</h2>
 
-            {while $list = $data->fetch(PDO::FETCH_ASSOC)}
-                {$list.username = $list.name|escape:html}
-                {include file="../parts/search_user.tpl"}
-            {/while}
+            <table>
+                {while $list = $data->fetch(PDO::FETCH_ASSOC)}
+                    {$list.username = $list.name|escape:html}
+                    {include file="../parts/search_user.tpl"}
+                {/while}
+            </table>
             
             <h2>{$lang.authors_text3}</h2>
         </div>

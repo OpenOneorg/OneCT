@@ -9,6 +9,42 @@ body {
 	margin: 0;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #EEEEEE;
+  border-radius: 4px;
+  box-shadow: 0px 5px 8px rgba(0,0,0,0.5);
+}
+
+th, td {
+  padding: 16px;
+  text-align: left;
+}
+
+th {
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+code {
+    background: rgb(240, 240, 240);
+}
+
+pre {
+    padding: 16px;
+    background: rgb(240, 240, 240);
+	border-radius: 4px;
+	box-shadow: 0px 5px 8px rgba(0,0,0,0.5);
+}
+
+blockquote {
+    padding: 8px;
+    background: rgb(240, 240, 240);
+    border-left: 5px solid #6A1B9A;
+	border-radius: 4px;
+  	box-shadow: 0px 5px 8px rgba(0,0,0,0.5);
+}
 
 .header {
 	display: block;
@@ -166,7 +202,7 @@ body {
 	padding-top: 16px;
 }
 .main a {
-	color: black;
+	color: #6A1B9A;
 	text-decoration: none;
 }
 
@@ -231,7 +267,7 @@ body {
 }
 
 .posting .detail a {
-	color: black;
+	color: #6A1B9A;
 	text-decoration: none;
 }
 

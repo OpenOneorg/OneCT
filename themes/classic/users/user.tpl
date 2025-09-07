@@ -15,7 +15,7 @@
                         {$side_name}
                     </a>
                 {/foreach}
-            </div>
+            </div><br>
 
             <table class="user">
                 <tr>
@@ -36,7 +36,7 @@
 				</tr>
 			</table>
             
-            <h1>{$lang.desc}: {$data_user.0.description}</h1>
+            <h1>{$lang.desc}: {$data_user.0.description_html}</h1>
         </div>
 
         <h1 class="head">{$lang.wall}</h1>

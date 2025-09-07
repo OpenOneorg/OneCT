@@ -91,6 +91,7 @@
     $lang['activation_text'] = 'На указанную почту была отправлена ссылка для активации аккаунта. Не забудьте проверить папку "спам".';
     $lang['left1'] = ' Подождите ';
     $lang['left2'] = ' секунд';
+    $lang['markdown_support'] = 'Данная функция имеет поддержку синтаксиса <a href="https://www.markdownguide.org/basic-syntax/">markdown</a>';
 
     // Footer
 
@@ -116,5 +117,5 @@
     $lang['api']['bad_image'] = 'Неверные параметры изображения.';
     $lang['api']['wall_access_denied'] = 'Доступ запрещён.';
     $lang['api']['acc_not_act'] = 'Аккаунт не активирован!';
-
+    $lang['api']['long_text'] = 'Недопустимая длина текста!';
 ?>

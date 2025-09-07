@@ -16,6 +16,7 @@
             <button type="submit" name="do_post">
                 {$lang.post}
             </button>
+            <p>{$lang.markdown_support}</p>
             <p>
                 {$text}
             </p>

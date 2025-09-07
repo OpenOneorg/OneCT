@@ -8,6 +8,38 @@ body {
     font-size: 14px;
 }
 
+table {
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+code {
+    background: rgb(240, 240, 240);
+}
+
+pre {
+    padding: 8px;
+    background: rgb(240, 240, 240);
+}
+
+blockquote {
+    padding: 8px;
+    background: rgb(240, 240, 240);
+    border-left: 2px solid rgb(204,204,204);
+}
+
 .header {
     font-size: 16px;
     border-radius: 0px 0px 8px 8px;

@@ -20,8 +20,8 @@
         {* Описание пользователя *}
 
         <p>
-            {$lang.desc}: 
-            {$data_user.0.description}
+            {$lang.desc}: <br><br><br>
+            {$data_user.0.description_html}
         </p><br>
 
         <h1 align="center" class="block_name">

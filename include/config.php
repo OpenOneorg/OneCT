@@ -69,5 +69,9 @@
     $footer_links = array(
         $lang['terms'] => 'index.php?page=terms',
         $lang['authors'] => 'index.php?page=authors'
-    )
+    );
+
+    if (file_exists('../include/update.php')) {
+        include 'update.php';
+    }
 ?>

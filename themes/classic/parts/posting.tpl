@@ -4,6 +4,7 @@
     <button type="submit" name="do_post" class="do_post">{$lang.post}</button><br>    
 
     <div class="detail">
+        <p>{$lang.markdown_support}</p>
         <a class="openmenu" href="javascript:showmenu();">
             <img src="{$themedir}/imgs/close.gif" id="detailicon">
             {$lang.attach}

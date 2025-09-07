@@ -13,9 +13,12 @@
             <form action="" method="post" enctype="multipart/form-data" class="posting">
                 <textarea name="text" class="postarea"></textarea>
                 <button type="submit" name="do_post" class="do_post">{$lang.post}</button>
-                {if $text != NULL}
-                    <p class="error">{$text}</p>
-                {/if}
+                <div class="detail">
+                    <p>{$lang.markdown_support}</p>
+                    {if $text != NULL}
+                        <p class="error">{$text}</p>
+                    {/if}
+                </div>
             </form>
 
             {$i = 0}

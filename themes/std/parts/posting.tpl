@@ -6,7 +6,9 @@
 
     <button type="submit" name="do_post">
         {$lang.post}
-    </button><br>    
+    </button><br>
+
+    <p>{$lang.markdown_support}</p>
 
     <div class="file_form" style="display: none;">
         <p>{$lang.img}: </p>

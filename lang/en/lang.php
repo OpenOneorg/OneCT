@@ -91,6 +91,7 @@
     $lang['activation_text'] = 'An activation link has been sent to your email. Don\'t forget to check the spam folder.';
     $lang['left1'] = ' Wait ';
     $lang['left2'] = ' seconds';
+    $lang['markdown_support'] = 'This function have a <a href="https://www.markdownguide.org/basic-syntax/">markdown</a> syntax';
 
     // Footer
 
@@ -116,4 +117,5 @@
     $lang['api']['bad_image'] = 'Invalid image parameters.';
     $lang['api']['wall_access_denied'] = 'Access denied.';
     $lang['api']['acc_not_act'] = 'Account not activated!';
+    $lang['api']['long_text'] = 'Invalid text length!';
 ?>

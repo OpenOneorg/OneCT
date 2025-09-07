@@ -1,9 +1,8 @@
-<table class="user">
     <tr>
 		{* Аватарка *}
-		<td><img class="img100" src="{$list.img100}"></td>
+		<th><img class="img100" src="{$list.img100}"></th>
 
-		<td class="info">
+		<th class="info">
             <a href="user.php?id={$list['id']}">
                 <h1>
                     {* Имя пользоателя *}
@@ -15,6 +14,5 @@
                     {/if}
                 </h1>
             </a>
-		</td>
+		</th>
 	</tr>
-</table>

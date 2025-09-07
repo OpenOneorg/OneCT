@@ -2,27 +2,17 @@
     ini_set('display_errors', false); // Скрываем рукожопость автора
 
     require_once "../include/config.php";
+    require_once "../include/libs/parsedown/Parsedown.php";
+    $Parsedown = new Parsedown();
+    $Parsedown->setSafeMode(true);
+    $Parsedown->setBreaksEnabled(true);
 
     // Извини, мне заебало вставлять комментариии, поэтому без них
 
     class comments{
         function get($token, $id, $page){
-            global $db, $url, $lang;
+            global $db, $url, $lang, $Parsedown;
             $response = array();
-            
-            function makeLinks($text) {
-                $pattern = '~((https?://)?([a-z0-9-]+\.)+[a-z]{2,}(/\S*)?)~i';
-                
-                $replacedText = preg_replace_callback($pattern, function($matches) {
-                    $url = $matches[0];
-                    if (strpos($url, 'http://') !== 0 && strpos($url, 'https://') !== 0) {
-                        $url = 'http://' . $url;
-                    }
-                    return '<a href="' . $url . '" target="_blank" rel="noopener noreferrer">' . $matches[0] . '</a>';
-                }, $text);
-                
-                return $replacedText;
-            }
 
             $get_user_token = $db->query("SELECT * FROM users WHERE token = " .$db->quote($token));
 
@@ -42,7 +32,7 @@
                         'id_from' => (int)$wall['id_user'],
                         'user_id' => (int)$wall['id_who'],
                         'text' => htmlspecialchars($wall['post']),
-                        'text_html' => makeLinks(nl2br(htmlspecialchars($wall['post']))),
+                        'text_html' => $Parsedown->text($wall['post']),
                         'date' => (int)$wall['date'],
                         'liked' => boolval($youtlike->rowCount()),
                         'likes' => (int)$likes_count,
@@ -61,7 +51,7 @@
                             'post_id' => (int)$list['post_id'],
                             'user_id' => (int)$list['user_id'],
                             'text' => htmlspecialchars($list['text']),
-                            'text_html' => makeLinks(nl2br(htmlspecialchars($list['text']))),
+                            'text_html' => $Parsedown->text($list['text']),
                             'date' => (int)$list['date']
                         ];
     ;
@@ -142,6 +132,12 @@
                         $error = 1;
                         http_response_code(400);
                         $response = array('error' => $lang['api']['no_text']);
+                    }
+
+                    if(mb_strlen($text, 'UTF-8') >= 1025){
+                        $error = 1;
+                        http_response_code(400);
+                        $response = array('error' => $lang['api']['long_text']);
                     }
 
                     // Да над каким постом ты будешь делать комментарий?
