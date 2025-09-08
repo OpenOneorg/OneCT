@@ -11,6 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel</title>
+    <link rel="stylesheet" href="panel.php?file=default.css&amp;version=5.4.0">
     <link rel="stylesheet" href="adminer.css">
 </head>
 <body>
@@ -19,11 +20,11 @@
             <input type="hidden" name="auth[driver]" value="server">
             <input type="hidden" name="auth[username]" value="<?php echo($dbconn['user']); ?>">
             <input type="hidden" name="auth[password]" value="<?php echo($dbconn['pass']); ?>">
-            <p>Это раняя админ панель, в котором есть ссылка только на <input type="submit" value="Adminer"> с функцией редактирования данных ДБ и всё (@cat_flopper не слей сука ДБ)</p>
+            <p>Это админ панель с <input type="submit" value="Adminer"> потому что его хватает достаточно даже. А так, в админ панеле будут появляться новые функции</p>
         </form>
     </div>
     <div id="menu">
-        <h1><a target="_blank" rel="noreferrer noopener" id="h1"><?php echo($sitename); ?> Admin panel</a></h1>
-    </div>    
+        <h1><a id="h1">Admin Panel</a></h1>
+    </div>
 </body>
 </html>
