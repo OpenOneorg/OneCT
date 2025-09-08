@@ -12,7 +12,7 @@
         </h1>
 
         <form action="" method="post" enctype="multipart/form-data"  class="post_block">
-            <textarea name="text" style="width: 100%;"></textarea>
+            <textarea name="text" style="width: 100%;" maxlength="1024"></textarea>
             <button type="submit" name="do_post">
                 {$lang.post}
             </button>

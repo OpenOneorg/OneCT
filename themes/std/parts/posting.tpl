@@ -1,5 +1,5 @@
 <form action="" method="post" enctype="multipart/form-data" class="post_block">
-    <textarea name="text" style="width: 100%;"></textarea>
+    <textarea name="text" style="width: 100%;" maxlength="2048"></textarea>
     <a href="javascript:openmenu('file_form');" style="float:right;">
         {$lang.attach}
     </a>
