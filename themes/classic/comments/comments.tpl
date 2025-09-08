@@ -11,7 +11,7 @@
             <h1 class="head">{$lang.comments}</h1>
 
             <form action="" method="post" enctype="multipart/form-data" class="posting">
-                <textarea name="text" class="postarea"></textarea>
+                <textarea name="text" class="postarea" maxlength="1024"></textarea>
                 <button type="submit" name="do_post" class="do_post">{$lang.post}</button>
                 <div class="detail">
                     <p>{$lang.markdown_support}</p>

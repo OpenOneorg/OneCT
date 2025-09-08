@@ -8,12 +8,12 @@
             <form method="post">
                 <p>
                     <p>{$lang.name}: </p>
-                    <input type="text" name="name" value="{$data.username}">
+                    <input type="text" name="name" value="{$data.username}" maxlength="5">
                 </p>
                 <p>
                     <p>{$lang.desc}: </p>
                     <p>{$lang.markdown_support}</p>
-                    <textarea name="desc">{$data.description}</textarea>
+                    <textarea name="desc" maxlength="512">{$data.description}</textarea>
                 </p>
                 <p>
                     <p>{$lang.yes_post}: </p>
