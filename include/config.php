@@ -52,6 +52,7 @@
             $lang['home'] => 'index.php',
             $lang['feed'] => 'feed.php',
             $lang['search'] => 'search.php',
+            'Мессенджер' => 'messenger.php',
             $lang['settings'] => 'settings.php'
         );
 
