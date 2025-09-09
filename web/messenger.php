@@ -14,4 +14,11 @@
 
     include '../include/web/template.php';
 
-    $smarty->display('chats.tpl');
+    switch($_GET['page']){
+        case NULL:          
+            $smarty->display('chats.tpl');
+            break;
+        case 'chat':
+            $smarty->display('chat.tpl');
+            break;
+    }

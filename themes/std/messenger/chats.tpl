@@ -5,7 +5,7 @@
 {block name=body}
     <div class="page">
 
-        <a href="" style="color: black; text-decoration: none;">
+        <a href="?page=chat" style="color: black; text-decoration: none;">
             {* Аватарка *}
             <img src="../themes/std/imgs/blankimg.jpg" width="50px" style="float: left; margin-right: 8px;">
 
@@ -17,7 +17,7 @@
                 Пользователь: Lorem Ipsum...
             </p>
         </a><hr>
-        <a href="" style="color: black; text-decoration: none;">
+        <a href="?page=chat" style="color: black; text-decoration: none;">
             {* Аватарка *}
             <img src="../themes/std/imgs/blankimg.jpg" width="50px" style="float: left; margin-right: 8px;">
 
@@ -29,7 +29,7 @@
                 Пользователь: Lorem Ipsum...
             </p>
         </a><hr>
-        <a href="" style="color: black; text-decoration: none;">
+        <a href="?page=chat" style="color: black; text-decoration: none;">
             {* Аватарка *}
             <img src="../themes/std/imgs/blankimg.jpg" width="50px" style="float: left; margin-right: 8px;">
 
