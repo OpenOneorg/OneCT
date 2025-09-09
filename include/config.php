@@ -42,10 +42,9 @@
 
     // Для API
 
+    include "../lang/en/lang.php";
     if(!include "../lang/{$_SESSION['lang']}/lang.php"){
-        if(!include "../lang/en/lang.php"){
-            include "../lang/ru/lang.php";
-        }
+        include "../lang/en/lang.php";
     }
 
     if(isset($_SESSION['user']['token'])){
